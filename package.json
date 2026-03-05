@@ -1,0 +1,23 @@
+{
+    "name": "digital-iflex",
+    "version": "1.0.0",
+    "description": "Digital iflex - Digital Marketing Agency Website",
+    "main": "server.js",
+    "scripts": {
+        "start": "node server.js",
+        "dev": "node server.js"
+    },
+    "dependencies": {
+        "bcryptjs": "^2.4.3",
+        "sql.js": "^1.10.0",
+        "cors": "^2.8.5",
+        "dotenv": "^16.4.5",
+        "ejs": "^3.1.10",
+        "express": "^4.21.0",
+        "express-rate-limit": "^7.4.0",
+        "helmet": "^7.1.0",
+        "jsonwebtoken": "^9.0.2",
+        "nodemailer": "^6.9.15",
+        "cookie-parser": "^1.4.6"
+    }
+}

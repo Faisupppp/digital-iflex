@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>Blog - Digital iflex Admin</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box
+        }
+
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: #0a0a0a;
+            color: #fff;
+            min-height: 100vh
+        }
+
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 240px;
+            height: 100vh;
+            background: #111;
+            border-right: 1px solid #222;
+            padding: 20px 0;
+            z-index: 100
+        }
+
+        .sidebar .logo {
+            padding: 0 20px 25px;
+            font-size: 22px;
+            font-weight: 800;
+            border-bottom: 1px solid #222
+        }
+
+        .logo span {
+            color: #F44336
+        }
+
+        .sidebar nav {
+            padding: 15px 10px
+        }
+
+        .sidebar nav a {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 16px;
+            color: #aaa;
+            font-size: 14px;
+            font-weight: 500;
+            border-radius: 10px;
+            margin-bottom: 4px;
+            transition: .3s;
+            text-decoration: none
+        }
+
+        .sidebar nav a:hover,
+        .sidebar nav a.active {
+            background: rgba(244, 67, 54, .1);
+            color: #F44336
+        }
+
+        .sidebar nav a i {
+            width: 20px;
+            text-align: center;
+            font-size: 16px
+        }
+
+        .sidebar .logout {
+            position: absolute;
+            bottom: 20px;
+            left: 10px;
+            right: 10px
+        }
+
+        .sidebar .logout a {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 16px;
+            color: #aaa;
+            font-size: 14px;
+            border-radius: 10px;
+            transition: .3s;
+            text-decoration: none
+        }
+
+        .sidebar .logout a:hover {
+            background: rgba(244, 67, 54, .1);
+            color: #F44336
+        }
+
+        .main {
+            margin-left: 240px;
+            padding: 30px
+        }
+
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px
+        }
+
+        .topbar h2 {
+            font-size: 24px
+        }
+
+        .card {
+            background: #1c1c1c;
+            border: 1px solid #222;
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 20px
+        }
+
+        .card h3 {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px
+        }
+
+        .card h3 i {
+            color: #F44336
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 15px
+        }
+
+        .form-group {
+            margin-bottom: 15px
+        }
+
+        .form-group label {
+            display: block;
+            color: #aaa;
+            font-size: 13px;
+            margin-bottom: 6px;
+            font-weight: 600
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px 14px;
+            background: #111;
+            border: 1px solid #333;
+            border-radius: 8px;
+            color: #fff;
+            font-size: 14px;
+            outline: none;
+            transition: .3s;
+            font-family: 'Segoe UI', sans-serif
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            border-color: #F44336
+        }
+
+        .form-group textarea {
+            min-height: 150px;
+            resize: vertical
+        }
+
+        .form-group select option {
+            background: #111;
+            color: #fff
+        }
+
+        .btn-primary {
+            padding: 12px 28px;
+            background: #F44336;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: .3s
+        }
+
+        .btn-primary:hover {
+            background: #d32f2f
+        }
+
+        .btn-cancel {
+            padding: 12px 28px;
+            background: transparent;
+            border: 1px solid #333;
+            color: #aaa;
+            border-radius: 8px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: .3s;
+            text-decoration: none;
+            display: inline-block;
+            margin-left: 10px
+        }
+
+        .btn-cancel:hover {
+            border-color: #F44336;
+            color: #F44336
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse
+        }
+
+        table th {
+            text-align: left;
+            padding: 12px 15px;
+            color: #aaa;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-bottom: 1px solid #222
+        }
+
+        table td {
+            padding: 12px 15px;
+            font-size: 14px;
+            border-bottom: 1px solid rgba(255, 255, 255, .03)
+        }
+
+        table tr:hover td {
+            background: rgba(255, 255, 255, .02)
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600
+        }
+
+        .badge-pub {
+            background: rgba(76, 175, 80, .15);
+            color: #4CAF50
+        }
+
+        .badge-draft {
+            background: rgba(255, 152, 0, .15);
+            color: #FF9800
+        }
+
+        .btn-sm {
+            padding: 5px 12px;
+            border-radius: 6px;
+            border: 1px solid #333;
+            background: transparent;
+            color: #aaa;
+            font-size: 12px;
+            cursor: pointer;
+            transition: .3s;
+            text-decoration: none;
+            display: inline-block
+        }
+
+        .btn-sm:hover {
+            border-color: #F44336;
+            color: #F44336
+        }
+
+        .btn-danger {
+            border-color: #F44336;
+            color: #F44336
+        }
+
+        .btn-danger:hover {
+            background: #F44336;
+            color: #fff
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 15px
+        }
+
+        .checkbox-group input[type=checkbox] {
+            width: 18px;
+            height: 18px;
+            accent-color: #F44336
+        }
+
+        @media(max-width:768px) {
+            .sidebar {
+                width: 60px
+            }
+
+            .sidebar .logo,
+            .sidebar nav a span,
+            .sidebar .logout a span {
+                display: none
+            }
+
+            .main {
+                margin-left: 60px;
+                padding: 15px
+            }
+
+            .form-row {
+                grid-template-columns: 1fr
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="sidebar">
+        <div class="logo">Digital <span>iflex</span></div>
+        <nav>
+            <a href="/admin/dashboard"><i class="fas fa-chart-pie"></i><span>Dashboard</span></a>
+            <a href="/admin/contacts"><i class="fas fa-envelope"></i><span>Contacts</span></a>
+            <a href="/admin/blog" class="active"><i class="fas fa-blog"></i><span>Blog Posts</span></a>
+            <a href="/admin/analytics"><i class="fas fa-chart-line"></i><span>Analytics</span></a>
+            <a href="/" target="_blank"><i class="fas fa-globe"></i><span>View Site</span></a>
+        </nav>
+        <div class="logout"><a href="/admin/logout"><i class="fas fa-sign-out-alt"></i><span>Logout</span></a></div>
+    </div>
+    <div class="main">
+        <div class="topbar">
+            <h2><i class="fas fa-blog" style="color:#F44336;margin-right:10px"></i>Blog Posts</h2>
+        </div>
+
+        <div class="card">
+            <h3><i class="fas fa-<%= editing ? 'edit' : 'plus' %>"></i>
+                <%= editing ? 'Edit Post' : 'Create New Post' %>
+            </h3>
+            <form method="POST" action="<%= editing ? '/admin/blog/edit/' + editing.id : '/admin/blog/create' %>">
+                <div class="form-row">
+                    <div class="form-group"><label>Title</label><input type="text" name="title"
+                            value="<%= editing ? editing.title : '' %>" required placeholder="Enter post title"></div>
+                    <div class="form-group"><label>Category</label>
+                        <select name="category">
+                            <option value="Digital Marketing" <%=editing && editing.category==='Digital Marketing'
+                                ? 'selected' : '' %>>Digital Marketing</option>
+                            <option value="SEO" <%=editing && editing.category==='SEO' ? 'selected' : '' %>>SEO</option>
+                            <option value="Social Media" <%=editing && editing.category==='Social Media' ? 'selected'
+                                : '' %>>Social Media</option>
+                            <option value="Web Development" <%=editing && editing.category==='Web Development'
+                                ? 'selected' : '' %>>Web Development</option>
+                            <option value="App Development" <%=editing && editing.category==='App Development'
+                                ? 'selected' : '' %>>App Development</option>
+                            <option value="AI & Technology" <%=editing && editing.category==='AI & Technology'
+                                ? 'selected' : '' %>>AI & Technology</option>
+                            <option value="Branding" <%=editing && editing.category==='Branding' ? 'selected' : '' %>
+                                >Branding</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group"><label>Excerpt (Short Description)</label><input type="text" name="excerpt"
+                        value="<%= editing ? editing.excerpt : '' %>" placeholder="Brief summary for the blog card">
+                </div>
+                <div class="form-group"><label>Content</label><textarea name="content"
+                        placeholder="Write your blog post content here..."
+                        required><%= editing ? editing.content : '' %></textarea></div>
+                <% if (editing) { %>
+                    <div class="checkbox-group"><input type="checkbox" name="is_published" value="1" id="pub"
+                            <%=editing.is_published ? 'checked' : '' %>><label for="pub"
+                            style="color:#aaa;font-size:13px;margin:0">Published</label></div>
+                    <% } %>
+                        <button type="submit" class="btn-primary"><i class="fas fa-save"></i>
+                            <%= editing ? 'Update Post' : 'Create Post' %>
+                        </button>
+                        <% if (editing) { %><a href="/admin/blog" class="btn-cancel">Cancel</a>
+                            <% } %>
+            </form>
+        </div>
+
+        <div class="card">
+            <h3><i class="fas fa-list"></i> All Posts (<%= posts.length %>)</h3>
+            <% if (posts.length> 0) { %>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Title</th>
+                            <th>Category</th>
+                            <th>Status</th>
+                            <th>Date</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% posts.forEach(p=> { %>
+                            <tr>
+                                <td><strong>
+                                        <%= p.title %>
+                                    </strong></td>
+                                <td style="color:#aaa">
+                                    <%= p.category %>
+                                </td>
+                                <td><span class="badge <%= p.is_published ? 'badge-pub' : 'badge-draft' %>">
+                                        <%= p.is_published ? 'Published' : 'Draft' %>
+                                    </span></td>
+                                <td style="color:#666;font-size:12px">
+                                    <%= new Date(p.created_at).toLocaleDateString() %>
+                                </td>
+                                <td>
+                                    <a href="/admin/blog/edit/<%= p.id %>" class="btn-sm"><i
+                                            class="fas fa-edit"></i></a>
+                                    <form method="POST" action="/admin/blog/delete/<%= p.id %>" style="display:inline"
+                                        onsubmit="return confirm('Delete this post?')"><button type="submit"
+                                            class="btn-sm btn-danger"><i class="fas fa-trash"></i></button></form>
+                                </td>
+                            </tr>
+                            <% }); %>
+                    </tbody>
+                </table>
+                <% } else { %>
+                    <div style="text-align:center;padding:40px;color:#666"><i class="fas fa-pen-fancy"
+                            style="font-size:48px;display:block;margin-bottom:15px"></i>
+                        <p>No blog posts yet. Create your first post above!</p>
+                    </div>
+                    <% } %>
+        </div>
+    </div>
+</body>
+
+</html>
